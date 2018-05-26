@@ -2,15 +2,12 @@
 
 @font-size: 10px;
 @font-color: black;
-@background-color: #FFFFFF;
+@background-color: #fdfdfd;
 @h1-size: 50px;
 
 @font-face {
   font-family: "Connection";
   src: url("../../assets/font/Connection.ttf") format("truetype");
-}
-
-head {
 }
 
 body {
@@ -19,6 +16,20 @@ body {
   background-color: @background-color;
   margin: 0;
   padding: 0;
+  image-rendering: optimizeSpeed;
+  /* Older versions of FF */
+  image-rendering: -moz-crisp-edges;
+  /* FF 6.0+ */
+  image-rendering: -webkit-optimize-contrast;
+  /* Webkit (non standard naming) */
+  image-rendering: -o-crisp-edges;
+  /* OS X & Windows Opera (12.02+) */ 
+  image-rendering: crisp-edges;
+  /* Possible future browsers. */
+  -ms-interpolation-mode: nearest-neighbor;
+  /* IE (non standard naming) */
+  image-rendering: pixelated;
+  /* Chrome 41 */
 
   div.container {
     text-align: center;
@@ -28,6 +39,10 @@ body {
     div#game {
       margin: 0;
       padding: 0;
+    }
+
+    canvas {
+        box-shadow: 0px 0px 15px #7d6406;
     }
   }
 }
