@@ -1,18 +1,9 @@
 export class Utils {
-    static getResolution(): Resolution {
-        let canvas = document.querySelector("canvas"),
-            width = window.innerWidth * window.devicePixelRatio,
-            height = window.innerHeight * window.devicePixelRatio,
-            wratio = width / height,
-            ratio = canvas.width / canvas.height;
-        if (wratio < ratio) {
-            return new Resolution(width, width / height, 1)
-        } else {
-            return new Resolution(height * ratio, height, 1)
-        }
-    }
-}
+    public static getCetnerPosition(): Phaser.Geom.Point {
+        const gameWidth: number = 540,
+            gameHeight: number = 960
 
-export class Resolution {
-    constructor(public width: number, public height: number, public scaleRatio: number) { }
+        return new Phaser.Geom.Point(Math.floor(Math.min(window.innerWidth, gameWidth) / 2), Math.floor(Math.min(window.innerHeight, gameHeight) / 2))
+    }
+
 }

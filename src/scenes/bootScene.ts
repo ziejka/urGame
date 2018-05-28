@@ -5,11 +5,14 @@ export class BootScene extends Phaser.Scene {
         });
     }
 
-    create(): void {
-
+    preload(): void {
+        this.load.image("mapTest", "./assets/images/mapTest.png");
+        this.load.image("tile", "./assets/images/tile.png");
+        this.load.image("bluePawn", "./assets/images/blue_pawn.png");
+        this.load.image("redPawn", "./assets/images/blue_pawn.png");
     }
 
-    update(): void {
-        this.scene.start("MainMenuScene");
+    create(): void {
+        this.scene.start("MainScene");
     }
 }

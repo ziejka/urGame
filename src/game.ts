@@ -3,7 +3,6 @@
 import "phaser";
 import { MainScene } from "./scenes/mainScene"
 import { BootScene } from "./scenes/bootScene"
-import { Utils, Resolution } from "./helpers/utils";
 
 // main game configuration
 const config: GameConfig = {
@@ -14,8 +13,8 @@ const config: GameConfig = {
     parent: "game",
     scene: [BootScene, MainScene],
     backgroundColor: "#457b9d",
-    resolution: window.devicePixelRatio || 1,
-    "render.pixelArt": true
+    "render.pixelArt": true,
+    "render.roundPixels": true
 };
 
 // game class
@@ -27,11 +26,6 @@ export class Game extends Phaser.Game {
 
 // when the page is loaded, create our game instance
 window.onload = () => {
-    let game = new Game(config),
-        resolution: Resolution = Utils.getResolution()
-
-    // game.resize(resolution.width, resolution.height)
+    let game = new Game(config)
     window["game"] = game
-    // Utils.resize()
-    // window.addEventListener("resize", Utils.resize, false)
-};
+}
