@@ -11,11 +11,13 @@ export class MainScene extends Phaser.Scene {
     }
 
     create(): void {
-        let board = new Board(this)
-
+        let board = new Board(this),
+            map = this.add.sprite(this.cameras.main.width / 2, this.cameras.main.height / 2 - 20, 'mapTest')
 
         this.add.existing(board)
         window['scene'] = this
+        window['map'] = map
+
     }
 
     update(): void {

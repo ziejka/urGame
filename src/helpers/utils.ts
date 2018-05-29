@@ -1,9 +1,10 @@
 export class Utils {
-    public static getCetnerPosition(): Phaser.Geom.Point {
-        const gameWidth: number = 540,
-            gameHeight: number = 960
+    static gameWidth: number = 540
+    static gameHeight: number = 960
+    public static centerX: number = Math.floor(Utils.gameWidth / 2)
+    public static centerY: number = Math.floor(Utils.gameHeight / 2)
 
-        return new Phaser.Geom.Point(Math.floor(Math.min(window.innerWidth, gameWidth) / 2), Math.floor(Math.min(window.innerHeight, gameHeight) / 2))
+    static getPawnPositions(): Phaser.Geom.Point[] {
+        return []
     }
-
 }
