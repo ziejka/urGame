@@ -13,7 +13,6 @@ const config: GameConfig = {
     parent: "game",
     scene: [BootScene, MainScene],
     backgroundColor: "#457b9d",
-    // resolution: window.devicePixelRatio,
     "render.pixelArt": true,
     "render.roundPixels": true,
 
@@ -47,9 +46,7 @@ function initialize(game: any): void {
         });
     }
 
-    window.addEventListener('resize', resize);
-    if (game.scene.isBooted) resize();
-    else game.events.once('ready', resize);
+    game.events.once('ready', resize);
 }
 
 // when the page is loaded, create our game instance
