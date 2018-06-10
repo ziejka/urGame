@@ -19,13 +19,9 @@ export class MainScene extends Phaser.Scene {
             tilesPositions: Phaser.Geom.Point[] = GameUtils.generateTilesPositions(centerPoints),
             board: Phaser.GameObjects.Container = this.boardFactory.createBoard(BoardTypes.Basic, this, tilesPositions),
             arrows: Phaser.GameObjects.Container = new ArrowsContainer(this, tilesPositions)
-        // new Board(this, centerPoints)
-        // let map = this.add.sprite(this.cameras.main.width / 2, this.cameras.main.height / 2 - 20, 'mapTest')
-        // window['map'] = map
 
         this.add.existing(board)
         this.add.existing(arrows)
-        window['scene'] = this
     }
 
     update(): void {

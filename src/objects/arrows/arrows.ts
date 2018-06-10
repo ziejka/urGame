@@ -35,15 +35,16 @@ export default class Arrows {
     }
 
     private createTweens(scene: Phaser.Scene): Phaser.Tweens.Tween[] {
+        let speed: number = 150
         let tweens: Phaser.Tweens.Tween[] = this.arrows.map((arrow, index) =>
             scene.add.tween({
                 targets: arrow,
                 alpha: 1,
-                duration: 100,
+                duration: speed * 1.5,
                 yoyo: true,
                 repeat: -1,
-                delay: index * 100,
-                repeatDelay: 400,
+                delay: index * speed,
+                repeatDelay: speed * 4,
                 pause: true
             })
         )
