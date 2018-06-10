@@ -19,7 +19,8 @@ export enum Players {
 }
 
 export enum ArrowsNames {
-    'blue_arrow'
+    blueArrow = 'blueArrow',
+    redArrow = 'redArrow'
 }
 
 export const PlayersPawnIndexes: number[][] = [
