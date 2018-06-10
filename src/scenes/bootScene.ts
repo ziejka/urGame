@@ -10,8 +10,20 @@ export class BootScene extends Phaser.Scene {
         this.load.image("tile", "./assets/images/tile.png");
         this.load.image("bluePawn", "./assets/images/blue_pawn.png");
         this.load.image("redPawn", "./assets/images/blue_pawn.png");
-        this.load.image("blueArrow", "./assets/images/blue_arrow.png");
-        this.load.image("redArrow", "./assets/images/red_arrow.png");
+        this.loadArrows()
+    }
+
+    private loadArrows() {
+        let directions: string[] = ["N", "NE", "NW", "S", "SE", "SW"],
+            colors: string[] = ['Blue', 'Red'],
+            name: string
+
+        colors.forEach(color => {
+            directions.forEach(dir => {
+                name = color + dir
+                this.load.image(name, `./assets/images/arrows/${name}.png`)
+            })
+        })
     }
 
     create(): void {

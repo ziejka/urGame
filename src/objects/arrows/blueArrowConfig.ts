@@ -1,9 +1,10 @@
 import AbstractArrowsConfig from "./abstractArrowsConfig"
-import { ArrowsNames } from "../../config/config";
 
 export default class BlueArrowsConfig extends AbstractArrowsConfig {
+
     constructor(tilesPositions: Phaser.Geom.Point[]) {
         super(tilesPositions)
+
     }
 
     getXOffsets(): number[] {
@@ -28,11 +29,17 @@ export default class BlueArrowsConfig extends AbstractArrowsConfig {
         return 0
     }
 
-    generateImages(): string[] {
-        let images: string[] = []
-        for (let index = 0; index < 16; index++) {
-            images.push(ArrowsNames.blueArrow)
-        }
+    addFourthImage(images: string[]): string[] {
+        images.push(this.imageNames.NE)
+        return images
+    }
+    addRestImages(images: string[]): string[] {
+        images.push(this.imageNames.SE)
+        images.push(this.imageNames.S)
+        images.push(this.imageNames.NW)
+        images.push(this.imageNames.SW)
+        images.push(this.imageNames.N)
+        images.push(this.imageNames.NW)
         return images
     }
 }

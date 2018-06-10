@@ -28,11 +28,17 @@ export default class RedArrowsConfig extends AbstractArrowsConfig {
         return 1
     }
 
-    generateImages(): string[] {
-        let images: string[] = []
-        for (let index = 0; index < 16; index++) {
-            images.push(ArrowsNames.redArrow)
-        }
+    addFourthImage(images: string[]): string[] {
+        images.push(this.imageNames.NW)
+        return images
+    }
+    addRestImages(images: string[]): string[] {
+        images.push(this.imageNames.SW)
+        images.push(this.imageNames.S)
+        images.push(this.imageNames.NE)
+        images.push(this.imageNames.SE)
+        images.push(this.imageNames.N)
+        images.push(this.imageNames.NE)
         return images
     }
 }
