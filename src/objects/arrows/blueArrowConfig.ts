@@ -10,7 +10,7 @@ export default class BlueArrowsConfig extends AbstractArrowsConfig {
         return [
             this.x, this.x, this.x, this.x + this.topSideX,
             this.x - this.xDistance, this.x - this.xDistance, this.x - this.xDistance, this.x - this.xDistance,
-            this.x - this.xDistance, this.x - this.xDistance, this.x + this.xDistance, this.x - this.xDistance,
+            this.x - this.xDistance, this.x - this.xDistance, this.x + this.bottomSideX, this.x - this.xDistance,
             this.x - this.topSideXPlus, this.x - this.bottomSideX, this.x - this.xDistance, this.x - this.topSideX
         ]
     }

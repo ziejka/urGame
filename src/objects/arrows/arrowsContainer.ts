@@ -9,7 +9,7 @@ export default class ArrowsContainer extends Phaser.GameObjects.Container {
     constructor(scene: Phaser.Scene, tilesPositions: Phaser.Geom.Point[]) {
         super(scene)
         this.blueArrows = ArrowsFactory.createArrows(scene, tilesPositions, Players.Blue)
-        this.redArrows = ArrowsFactory.createArrows(scene, tilesPositions, Players.Blue)
+        this.redArrows = ArrowsFactory.createArrows(scene, tilesPositions, Players.Red)
 
         this.blueArrows.getArrows().forEach(sprite => this.add(sprite))
         this.redArrows.getArrows().forEach(sprite => this.add(sprite))

@@ -1,6 +1,7 @@
 import { Players } from "../../config/config";
 import ArrowConfig from "./arrowConfig";
 import BlueArrowsConfig from "./blueArrowConfig";
+import RedArrowsConfig from "./redArrowConfig";
 import Arrows from "./arrows";
 
 export default class ArrowsFactory {
@@ -10,7 +11,7 @@ export default class ArrowsFactory {
         if (player === Players.Blue) {
             config = new BlueArrowsConfig(tilesPositions).getArrowsConfig()
         } else {
-            config = new BlueArrowsConfig(tilesPositions).getArrowsConfig()
+            config = new RedArrowsConfig(tilesPositions).getArrowsConfig()
         }
 
         return new Arrows(scene, config)
