@@ -1,4 +1,4 @@
-import BoardFactory from "../objects/BoardFactory";
+import BoardFactory from "../objects/board/BoardFactory";
 import { BoardTypes } from "../config/config";
 import GameUtils from "../utils/GameUtils";
 import ArrowsContainer from "../objects/arrows/arrowsContainer";

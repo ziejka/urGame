@@ -1,4 +1,4 @@
-import { BoardTypes } from "../config/config";
+import { BoardTypes } from "../../config/config";
 import BasicBoard from "./BasicBoard";
 
 export default class BoardFactory {
