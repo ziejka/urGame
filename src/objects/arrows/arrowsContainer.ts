@@ -1,4 +1,4 @@
-import { Players, PlayersPawnIndexes, ArrowsOffset, ArrowsAngles } from "../../config/config";
+import { Players } from "../../config/config";
 import Arrows from "./arrows";
 import ArrowsFactory from "./arrowsFactory";
 
