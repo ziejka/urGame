@@ -1,5 +1,4 @@
 import AbstractArrowsConfig from "./abstractArrowsConfig"
-import { ArrowsNames } from "../../config/config";
 
 export default class RedArrowsConfig extends AbstractArrowsConfig {
     constructor(tilesPositions: Phaser.Geom.Point[]) {

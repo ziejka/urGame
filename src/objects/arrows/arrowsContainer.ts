@@ -13,5 +13,10 @@ export default class ArrowsContainer extends Phaser.GameObjects.Container {
 
         this.blueArrows.getArrows().forEach(sprite => this.add(sprite))
         this.redArrows.getArrows().forEach(sprite => this.add(sprite))
+
+        setTimeout(() => {
+            this.blueArrows.playAnimation()
+            this.redArrows.playAnimation()
+        }, 1000);
     }
 }
