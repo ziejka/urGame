@@ -7,12 +7,12 @@ export default abstract class AbstractPawnConfig {
     constructor(tilesPoistion: Phaser.Geom.Point[], centerPoints: Phaser.Geom.Point) {
         this.positions = GameUtils.generatePlayerPosition(tilesPoistion, this.getPlayersPawnIndexes())
         this.positions.unshift(this.getFirstPosition(centerPoints))
-        this.positions.push(this.getLastPosition(centerPoints))
+        this.positions.push(this.getLastPosition())
         this.texture = this.getTexture()
     }
 
     abstract getTexture(): string
     abstract getPlayersPawnIndexes(): number[]
     abstract getFirstPosition(centerPoints: Phaser.Geom.Point): Phaser.Geom.Point
-    abstract getLastPosition(centerPoints: Phaser.Geom.Point): Phaser.Geom.Point
+    abstract getLastPosition(): Phaser.Geom.Point
 }
