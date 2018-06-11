@@ -1,6 +1,7 @@
 export default class GameUtils {
     static generateTilesPositions(centerPoints: Phaser.Geom.Point): Phaser.Geom.Point[] {
-        let i: number, j: number, yNext: number,
+        let i: number, j: number,
+            yNext: number,
             xOffset: number = 110,
             yOffset: number = 90,
             yLowerOffset: number = 42,
@@ -21,5 +22,12 @@ export default class GameUtils {
             }
         }
         return boardPositions
+    }
+
+    static generatePlayerPosition(tilesPositions: Phaser.Geom.Point[], playersPawnIndexes: number[]): Phaser.Geom.Point[] {
+        let xOffset: number = 5,
+            yOffset: number = 15
+
+        return playersPawnIndexes.map(posIndex => new Phaser.Geom.Point(tilesPositions[posIndex].x + xOffset, tilesPositions[posIndex].y - yOffset))
     }
 }
