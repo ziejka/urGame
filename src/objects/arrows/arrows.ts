@@ -3,12 +3,11 @@ import ArrowConfig from "./arrowConfig";
 export default class Arrows {
     private arrows: Phaser.GameObjects.Sprite[]
     private tweens: Phaser.Tweens.Tween[]
-    private scene: Phaser.Scene;
 
     constructor(scene: Phaser.Scene, arrowsConfig: ArrowConfig[]) {
         this.arrows = this.createArrows(scene, arrowsConfig)
+        this.tweens = this.createTweens(scene)
         this.setAlpha(0.5)
-        this.scene = scene
     }
 
     setAlpha(alpha) {
@@ -18,11 +17,7 @@ export default class Arrows {
     }
 
     playAnimation() {
-        if (!this.tweens) {
-            this.tweens = this.createTweens(this.scene)
-        } else {
-            this.tweens.forEach(tween => tween.resume())
-        }
+        this.tweens.forEach(tween => tween.resume())
     }
 
     pauseAnimation() {
@@ -45,7 +40,7 @@ export default class Arrows {
                 repeat: -1,
                 delay: index * speed,
                 repeatDelay: speed * 4,
-                pause: true
+                paused: true
             })
         )
 
