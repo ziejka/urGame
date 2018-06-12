@@ -1,4 +1,3 @@
-import GameUtils from "../../utils/GameUtils";
 import AbstractPawnConfig from './abstractPawnConfig';
 
 export default class Pawn extends Phaser.GameObjects.Sprite {
@@ -6,29 +5,29 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
     currenPosition: number;
 
     private tweenMoveList: Phaser.Tweens.TweenConfigDefaults[]
-    private tweenTimeline: Phaser.Tweens.Timeline
 
-    constructor(scene: Phaser.Scene, { positions, texture }: AbstractPawnConfig) {
-        super(scene, positions[1].x, positions[1].y, texture)
+    constructor(scene: Phaser.Scene, { positions, texture }: AbstractPawnConfig, firstPosition: Phaser.Geom.Point) {
+        super(scene, firstPosition.x, firstPosition.y, texture)
         this.positions = positions
-        this.currenPosition = 1
+        this.currenPosition = 0
         this.setInteractive()
-        this.tweenMoveList = this.createMoveTweens(scene)
-        this.tweenTimeline = scene.tweens.timeline({})
+        this.tweenMoveList = this.createMoveTweens()
         this.scene = scene
+        this.setScale(0.8)
 
         this.on('pointerup', () => {
-            this.jumpToPosition(4)
+            this.movePawnBy(4)
+            this.setScale(1)
         })
     }
 
-    jumpToPosition(n: number) {
+    movePawnBy(n: number) {
         const tweenTimeline = this.scene.tweens.timeline({})
         let nextPos = this.currenPosition + n
-        for (let i = this.currenPosition; i < nextPos; i++) {
+        for (let i = this.currenPosition + 1; i < nextPos + 1; i++) {
             if (i > 17) {
-                nextPos = 0
-                tweenTimeline.add(this.tweenMoveList[nextPos])
+                nextPos = 17
+                tweenTimeline.add(this.tweenMoveList[17])
                 break;
             }
             tweenTimeline.add(this.tweenMoveList[i])
@@ -37,7 +36,7 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
         this.currenPosition = nextPos
     }
 
-    private createMoveTweens(scene: Phaser.Scene): Phaser.Tweens.TweenConfigDefaults[] {
+    private createMoveTweens(): Phaser.Tweens.TweenConfigDefaults[] {
         let tweenMoveList: Phaser.Tweens.TweenConfigDefaults[] = []
         for (let i = 0; i < this.positions.length; i++) {
             const config = {
@@ -50,6 +49,8 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
             }
             tweenMoveList.push(config)
         }
+        console.log(tweenMoveList);
+
         return tweenMoveList
     }
 }

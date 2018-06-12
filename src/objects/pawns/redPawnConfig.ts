@@ -12,7 +12,7 @@ export default class RedPawnConfig extends AbstractPawnConfig {
     }
 
     getFirstPosition(centerPoints: Phaser.Geom.Point): Phaser.Geom.Point {
-        return new Phaser.Geom.Point(centerPoints.x * 2 - 50, centerPoints.y)
+        return new Phaser.Geom.Point(centerPoints.x * 2 - 30, centerPoints.y)
     }
 
     getLastPosition(): Phaser.Geom.Point {

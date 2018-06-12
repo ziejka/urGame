@@ -3,17 +3,33 @@ import BluePawnConfig from './bluePawnConfig';
 import RedPawnConfig from './redPawnConfig';
 
 export default class PawnsContainer extends Phaser.GameObjects.Container {
-    private bluePlayer: Phaser.GameObjects.Sprite[]
-    private redPlayer: Pawn[];
+    private playesrPawns: Pawn[][];
+
     constructor(scene: Phaser.Scene, tilesPositions: Phaser.Geom.Point[], centerPoints: Phaser.Geom.Point) {
-        let playerOneConfig = new BluePawnConfig(tilesPositions, centerPoints),
-            playerTwoConfig = new RedPawnConfig(tilesPositions, centerPoints)
         super(scene)
+        this.playesrPawns = this.createPlayersPawns(scene, tilesPositions, centerPoints)
+    }
 
-        this.bluePlayer = [new Pawn(scene, playerOneConfig)]
-        this.redPlayer = [new Pawn(scene, playerTwoConfig)]
+    private createPlayersPawns(scene: Phaser.Scene, tilesPositions: Phaser.Geom.Point[], centerPoints: Phaser.Geom.Point) {
+        let playerOneConfig = new BluePawnConfig(tilesPositions, centerPoints),
+            playerTwoConfig = new RedPawnConfig(tilesPositions, centerPoints),
+            bluePlayerPawns: Pawn[] = [],
+            redPlayerPawns: Pawn[] = [],
+            yOffset: number;
 
-        this.bluePlayer.forEach(sprite => this.add(sprite))
-        this.redPlayer.forEach(sprite => this.add(sprite))
+        for (let index = 0; index < 8; index++) {
+            yOffset = 35 * index
+            const firstBluePos = new Phaser.Geom.Point(playerOneConfig.positions[0].x, playerOneConfig.positions[0].y - yOffset),
+                firstRedPos = new Phaser.Geom.Point(playerTwoConfig.positions[0].x, playerTwoConfig.positions[0].y - yOffset),
+                bluePawn = new Pawn(scene, playerOneConfig, firstBluePos),
+                redPawn = new Pawn(scene, playerTwoConfig, firstRedPos)
+
+            this.add(bluePawn)
+            this.add(redPawn)
+
+            bluePlayerPawns.push(bluePawn)
+            redPlayerPawns.push(redPawn)
+        }
+        return [bluePlayerPawns, redPlayerPawns]
     }
 }
