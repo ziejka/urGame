@@ -3,6 +3,7 @@ import { BoardTypes } from "../config/config";
 import GameUtils from "../utils/GameUtils";
 import ArrowsContainer from "../objects/arrows/arrowsContainer";
 import PawnsContainer from "../objects/pawns/pawnsContainer";
+import GameAnimations from '../utils/gameAnimations';
 
 export class MainScene extends Phaser.Scene {
     private boardFactory: BoardFactory
@@ -13,6 +14,10 @@ export class MainScene extends Phaser.Scene {
         });
 
         this.boardFactory = new BoardFactory()
+    }
+
+    preload(): void {
+        GameAnimations.createAnimations(this)
     }
 
     create(): void {

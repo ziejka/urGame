@@ -25,8 +25,8 @@ export default class GameUtils {
     }
 
     static generatePlayerPosition(tilesPositions: Phaser.Geom.Point[], playersPawnIndexes: number[]): Phaser.Geom.Point[] {
-        let xOffset: number = 5,
-            yOffset: number = 15
+        let xOffset: number = 2,
+            yOffset: number = 33
 
         return playersPawnIndexes.map(posIndex => new Phaser.Geom.Point(tilesPositions[posIndex].x + xOffset, tilesPositions[posIndex].y - yOffset))
     }

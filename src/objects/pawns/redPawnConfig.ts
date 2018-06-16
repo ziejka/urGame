@@ -2,6 +2,9 @@ import AbstractPawnConfig from './abstractPawnConfig';
 import { PlayersImages, PlayersPawnIndexes, Players } from '../../config/config';
 
 export default class RedPawnConfig extends AbstractPawnConfig {
+    getAnimations(): string {
+        return "redPawnJump"
+    }
 
     getTexture(): string {
         return PlayersImages.Red

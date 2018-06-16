@@ -8,8 +8,8 @@ export class BootScene extends Phaser.Scene {
     preload(): void {
         this.load.image("mapTest", "./assets/images/mapTest.png");
         this.load.image("tile", "./assets/images/tile.png");
-        this.load.image("bluePawn", "./assets/images/blue_pawn.png");
-        this.load.image("redPawn", "./assets/images/red_pawn.png");
+        this.load.spritesheet("bluePawn", "./assets/animations/bluePawn.png", { frameWidth: 83, frameHeight: 80 });
+        this.load.spritesheet("redPawn", "./assets/animations/redPawn.png", { frameWidth: 83, frameHeight: 80 });
         this.loadArrows()
     }
 
