@@ -12,6 +12,22 @@ export enum PlayersImages {
     Red = "redPawn"
 }
 
+export enum Colors {
+    Red = "#e63946",
+    Shadow = 'rgba(0, 0, 0, 0.5)'
+}
+
+export enum Font {
+    fontNormal = '40px CustomFont',
+    fontFamily = 'CustomFont'
+}
+
+export const GameEvents = {
+    playBtn: {
+        animationFinished: Symbol()
+    }
+}
+
 export const PlayersPawnIndexes: number[][] = [
     [9, 6, 3, 0, 1, 4, 7, 10, 12, 13, 15, 16, 19, 18, 17, 14],
     [11, 8, 5, 2, 1, 4, 7, 10, 12, 13, 15, 14, 17, 18, 19, 16]
