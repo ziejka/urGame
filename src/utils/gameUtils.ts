@@ -5,7 +5,7 @@ export default class GameUtils {
             xOffset: number = 110,
             yOffset: number = 90,
             yLowerOffset: number = 42,
-            yStart: number = -300,
+            yStart: number = -350,
             x: number[] = [-xOffset, 0, xOffset],
             yAdditionalOffset: number[] = [yLowerOffset, 0, yLowerOffset],
             boardPositions: Phaser.Geom.Point[] = []
