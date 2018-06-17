@@ -22,4 +22,8 @@ export default class GameState {
     getWonNumber(): number {
         return this.wonNumber
     }
+
+    getPlayer(): number {
+        return this.player
+    }
 }

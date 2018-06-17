@@ -1,14 +1,15 @@
-import { Colors, Font, GameEvents } from '../../config/config';
-import { iClientGameLogic } from '../../gameLogic/iClientGameLogic';
+import { Colors, Font, GameEvents, Players } from '../../config/config';
+import iClientGameLogic from '../../gameLogic/iClientGameLogic';
 
-const minSpinNumber = 5
+const minSpinNumber = 2
 
 export default class BtnContainer extends Phaser.GameObjects.Container {
     private numbers: Phaser.GameObjects.Sprite[];
     private centerX: number;
-    private playBtn: Phaser.GameObjects.Sprite;
+    private centerY: number;
+    private playBtns: Phaser.GameObjects.Sprite[];
     private wonValue: Phaser.GameObjects.Text;
-    private xOffset: number = 100
+    private offset: number = 100
     private gameLogic: iClientGameLogic;
     private emitter: Phaser.Events.EventEmitter;
 
@@ -22,10 +23,10 @@ export default class BtnContainer extends Phaser.GameObjects.Container {
         this.gameLogic = gameLogic
         this.emitter = emitter
         this.centerX = centerPoint.x
-        this.playBtn = scene.add.sprite(positionX, positionY, 'playRed')
+        this.centerY = positionY
+        this.playBtns = this.createPlayBtns(scene, positionX, positionY)
         this.wonValue = this.createWonValueText(scene, positionY)
         this.numbers = this.generateNumbers(scene, centerPoint.x, positionY)
-        this.add(this.playBtn)
 
         btnMask.setPosition(this.centerX, positionY)
         this.mask = btnMask.createBitmapMask()
@@ -37,10 +38,10 @@ export default class BtnContainer extends Phaser.GameObjects.Container {
     }
 
     public onBtnClick(): void {
-        this.emitter.emit(GameEvents.playBtn.animationFinished)
+        this.emitter.emit(GameEvents.playBtn.clicked)
         this.scene.add.tween({
-            targets: this.playBtn,
-            x: this.centerX - this.xOffset,
+            targets: this.playBtns[this.gameLogic.getPlayer()],
+            x: this.centerX - this.offset,
             duration: 200,
             onComplete: this.runSpinNumber.bind(this, 0)
         })
@@ -48,7 +49,7 @@ export default class BtnContainer extends Phaser.GameObjects.Container {
 
     private endSpinAnimation(): void {
         this.wonValue.setText(this.gameLogic.getWonNumberText())
-        this.wonValue.setX(this.centerX + this.xOffset)
+        this.wonValue.setPosition(this.centerX + this.offset, this.centerY)
         this.scene.add.tween({
             targets: this.wonValue,
             x: this.centerX,
@@ -61,14 +62,14 @@ export default class BtnContainer extends Phaser.GameObjects.Container {
         setTimeout(() => {
             this.scene.add.tween({
                 targets: this.wonValue,
-                x: this.centerX - this.xOffset,
+                y: this.centerY + this.offset,
                 duration: 200
             })
 
-            this.playBtn.setX(this.centerX + this.xOffset)
+            this.playBtns[0].setPosition(this.centerX, this.centerY - this.offset)
             this.scene.add.tween({
-                targets: this.playBtn,
-                x: this.centerX,
+                targets: this.playBtns[0],
+                y: this.centerY,
                 duration: 200
             })
         }, 1000);
@@ -85,17 +86,17 @@ export default class BtnContainer extends Phaser.GameObjects.Container {
             callback = this.runSpinNumber.bind(this, ++num)
         }
 
-        target.setX(this.centerX + this.xOffset)
+        target.setX(this.centerX + this.offset)
         this.scene.add.tween({
             targets: target,
-            x: this.centerX - this.xOffset,
+            x: this.centerX - this.offset,
             duration: 150,
             onComplete: callback
         })
     }
 
     private createWonValueText(scene: Phaser.Scene, positionY: number): Phaser.GameObjects.Text {
-        let text = scene.add.text(this.centerX + this.xOffset, positionY, '0', { font: Font.fontNormal, color: Colors.Red })
+        let text = scene.add.text(this.centerX + this.offset, positionY, '0', { font: Font.fontNormal, color: Colors.Red })
         text.setShadow(2, 2, Colors.Shadow, 3, false, true)
         text.setOrigin(0.5, 0.5)
         this.add(text)
@@ -107,10 +108,20 @@ export default class BtnContainer extends Phaser.GameObjects.Container {
         let redNumbers = []
 
         for (let index = 0; index < 5; index++) {
-            const sprite = scene.add.sprite(positionX + this.xOffset, positionY, `blurRed${index}`)
+            const sprite = scene.add.sprite(positionX + this.offset, positionY, `blurRed${index}`)
             this.add(sprite)
             redNumbers.push(sprite)
         }
         return redNumbers
+    }
+
+    private createPlayBtns(scene: Phaser.Scene, positionX: number, positionY: number) {
+        let btns = [
+            scene.add.sprite(positionX, positionY, 'playBlue'),
+            scene.add.sprite(positionX, positionY - this.offset, 'playRed')
+        ]
+        btns.forEach(s => this.add(s))
+
+        return btns
     }
 }

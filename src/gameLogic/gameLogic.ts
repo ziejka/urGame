@@ -1,6 +1,6 @@
 import GameState from './gameState';
 import { GameEvents } from '../config/config';
-import { iClientGameLogic } from './iClientGameLogic';
+import iClientGameLogic from './iClientGameLogic';
 
 export default class GameLogic implements iClientGameLogic {
     private state: GameState;
@@ -9,7 +9,7 @@ export default class GameLogic implements iClientGameLogic {
     constructor(emitter: Phaser.Events.EventEmitter) {
         this.emitter = emitter
         this.state = new GameState()
-        this.emitter.on(GameEvents.playBtn.animationFinished, this.onPlayBtnClick, this)
+        this.emitter.on(GameEvents.playBtn.clicked, this.onPlayBtnClick, this)
     }
 
     private onPlayBtnClick(): void {
@@ -18,5 +18,9 @@ export default class GameLogic implements iClientGameLogic {
 
     getWonNumberText(): string {
         return this.state.getWonNumber().toString()
+    }
+
+    getPlayer(): number {
+        return this.state.getPlayer()
     }
 }
