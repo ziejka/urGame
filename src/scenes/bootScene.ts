@@ -20,6 +20,11 @@ export class BootScene extends Phaser.Scene {
         this.load.image("blurRed2", "./assets/images/bluredNumbers/red/2Blur.png");
         this.load.image("blurRed3", "./assets/images/bluredNumbers/red/3Blur.png");
         this.load.image("blurRed4", "./assets/images/bluredNumbers/red/4Blur.png");
+        this.load.image("blurBlue0", "./assets/images/bluredNumbers/blue/0Blur.png");
+        this.load.image("blurBlue1", "./assets/images/bluredNumbers/blue/1Blur.png");
+        this.load.image("blurBlue2", "./assets/images/bluredNumbers/blue/2Blur.png");
+        this.load.image("blurBlue3", "./assets/images/bluredNumbers/blue/3Blur.png");
+        this.load.image("blurBlue4", "./assets/images/bluredNumbers/blue/4Blur.png");
         this.load.spritesheet("bluePawn", "./assets/animations/bluePawn.png", { frameWidth: 83, frameHeight: 80 });
         this.load.spritesheet("redPawn", "./assets/animations/redPawn.png", { frameWidth: 83, frameHeight: 80 });
         this.loadArrows()

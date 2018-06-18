@@ -15,6 +15,10 @@ export default class GameState {
         this.wonNumber = -1
     }
 
+    changePlayer() {
+        this.player = this.player > 0 ? 0 : 1
+    }
+
     drawNumber() {
         this.wonNumber = Math.floor(Math.random() * maxNumber)
     }

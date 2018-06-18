@@ -9,7 +9,12 @@ export default class GameLogic implements iClientGameLogic {
     constructor(emitter: Phaser.Events.EventEmitter) {
         this.emitter = emitter
         this.state = new GameState()
+        this.setUpEvents()
+    }
+
+    private setUpEvents() {
         this.emitter.on(GameEvents.playBtn.clicked, this.onPlayBtnClick, this)
+        this.emitter.on(GameEvents.pawn.moveFinished, this.state.changePlayer, this.state)
     }
 
     private onPlayBtnClick(): void {

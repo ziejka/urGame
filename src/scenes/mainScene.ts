@@ -5,7 +5,7 @@ import ArrowsContainer from "../objects/arrows/arrowsContainer";
 import PawnsContainer from "../objects/pawns/pawnsContainer";
 import GameAnimations from '../utils/gameAnimations';
 import UiContainer from '../objects/ui/uiContainer';
-import BtnContainer from '../objects/ui/btnContainer';
+import PlayBtnContainer from '../objects/ui/playBtnContainer';
 import GameLogic from '../gameLogic/gameLogic';
 
 export class MainScene extends Phaser.Scene {
@@ -32,7 +32,7 @@ export class MainScene extends Phaser.Scene {
             arrows: Phaser.GameObjects.Container = new ArrowsContainer(this, tilesPositions),
             pawnsContainer: Phaser.GameObjects.Container = new PawnsContainer(this, tilesPositions, centerPoints),
             uiContainer: Phaser.GameObjects.Container = new UiContainer(this, centerPoints),
-            btn: Phaser.GameObjects.Container = new BtnContainer(this, centerPoints, gameLogic, emitter)
+            btn: Phaser.GameObjects.Container = new PlayBtnContainer(this, centerPoints, gameLogic, emitter)
 
         this.add.existing(board)
         this.add.existing(arrows)

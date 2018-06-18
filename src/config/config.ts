@@ -13,6 +13,7 @@ export enum PlayersImages {
 }
 
 export enum Colors {
+    Blue = "#a8dadc",
     Red = "#e63946",
     Shadow = 'rgba(0, 0, 0, 0.5)'
 }
@@ -25,6 +26,9 @@ export enum Font {
 export const GameEvents = {
     playBtn: {
         clicked: Symbol()
+    },
+    pawn: {
+        moveFinished: Symbol()
     }
 }
 
