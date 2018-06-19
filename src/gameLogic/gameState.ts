@@ -13,6 +13,11 @@ export default class GameState {
         this.roundNumber = 0
         this.score = new Array(2).fill(0)
         this.wonNumber = -1
+        window['state'] = this
+    }
+
+    movePawn(pawnIndex: number) {
+        this.pawnsPos[this.player][pawnIndex] += this.wonNumber
     }
 
     changePlayer() {
@@ -20,7 +25,7 @@ export default class GameState {
     }
 
     drawNumber() {
-        this.wonNumber = Math.floor(Math.random() * maxNumber)
+        this.wonNumber = Math.floor(Math.random() * maxNumber) + 1
     }
 
     getWonNumber(): number {

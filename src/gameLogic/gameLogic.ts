@@ -12,13 +12,8 @@ export default class GameLogic implements iClientGameLogic {
         this.setUpEvents()
     }
 
-    private setUpEvents() {
-        this.emitter.on(GameEvents.playBtn.clicked, this.onPlayBtnClick, this)
-        this.emitter.on(GameEvents.pawn.moveFinished, this.state.changePlayer, this.state)
-    }
-
-    private onPlayBtnClick(): void {
-        this.state.drawNumber()
+    getWonNumber(): number {
+        return this.state.getWonNumber()
     }
 
     getWonNumberText(): string {
@@ -28,4 +23,19 @@ export default class GameLogic implements iClientGameLogic {
     getPlayer(): number {
         return this.state.getPlayer()
     }
+
+    private setUpEvents() {
+        this.emitter.on(GameEvents.playBtn.clicked, this.onPlayBtnClick, this)
+        this.emitter.on(GameEvents.pawn.moveFinished, this.state.changePlayer, this.state)
+        this.emitter.on(GameEvents.pawn.clicked, this.onPawnSelect, this)
+    }
+
+    private onPawnSelect(pawnIndex): void {
+        this.state.movePawn(pawnIndex)
+    }
+
+    private onPlayBtnClick(): void {
+        this.state.drawNumber()
+    }
+
 }

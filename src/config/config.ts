@@ -25,9 +25,11 @@ export enum Font {
 
 export const GameEvents = {
     playBtn: {
-        clicked: Symbol()
+        clicked: Symbol(),
+        spinEnd: Symbol()
     },
     pawn: {
+        clicked: Symbol(),
         moveFinished: Symbol()
     }
 }

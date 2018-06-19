@@ -1,37 +1,46 @@
 import AbstractPawnConfig from './abstractPawnConfig';
-import { RIGHT } from 'phaser';
+import { GameEvents } from '../../config/config';
 
 export default class Pawn extends Phaser.GameObjects.Sprite {
-    positions: Phaser.Geom.Point[]
-    currenPosition: number;
-
+    private positions: Phaser.Geom.Point[]
+    private currenPosition: number
     private tweenMoveList: Phaser.Tweens.TweenConfigDefaults[]
-    private jumpAnim: string;
+    private jumpAnim: string
+    private sceneEvents: Phaser.Events.EventEmitter
+    private id: number;
 
-    constructor(scene: Phaser.Scene, { positions, texture, animation }: AbstractPawnConfig, firstPosition: Phaser.Geom.Point) {
+    constructor(scene: Phaser.Scene, { positions, texture, animation }: AbstractPawnConfig, firstPosition: Phaser.Geom.Point, id: number) {
         super(scene, firstPosition.x, firstPosition.y, texture)
+        this.id = id
         this.positions = positions
         this.currenPosition = 0
-        this.setInteractive()
         this.tweenMoveList = this.createMoveTweens()
         this.scene = scene
+        this.sceneEvents = scene.events
         this.setScale(0.8)
         this.jumpAnim = animation
 
         scene.add.existing(this)
 
-        this.on('pointerup', () => {
-            this.movePawnBy(1)
-            this.setScale(1)
-        })
+        this.on('pointerup', this.onPawnClicked, this)
     }
 
-    movePawnBy(n: number) {
-        const tweenTimeline = this.scene.tweens.timeline({
-            onComplete: this.stopJump.bind(this),
-            onStart: this.playJump.bind(this)
-        })
+    private onPawnClicked(): void {
+        this.sceneEvents.emit(GameEvents.pawn.clicked, this.id)
+    }
+
+    public disable(): void {
+        this.disableInteractive()
+    }
+
+    public enable(): void {
+        this.setInteractive()
+    }
+
+    public movePawnBy(n: number): void {
+        const tweenTimeline = this.scene.tweens.timeline({})
         let nextPos = this.currenPosition + n
+        this.setScale(1)
         for (let i = this.currenPosition + 1; i < nextPos + 1; i++) {
             if (i > 17) {
                 nextPos = 17
@@ -52,7 +61,7 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
     }
 
     private stopJump(): void {
-        this.setInteractive()
+        this.sceneEvents.emit(GameEvents.pawn.moveFinished)
         this.anims.restart()
         this.anims.stop()
     }

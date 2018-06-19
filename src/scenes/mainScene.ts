@@ -24,15 +24,14 @@ export class MainScene extends Phaser.Scene {
     }
 
     create(): void {
-        let emitter = new Phaser.Events.EventEmitter(),
-            gameLogic: GameLogic = new GameLogic(emitter),
+        let gameLogic: GameLogic = new GameLogic(this.events),
             centerPoints: Phaser.Geom.Point = new Phaser.Geom.Point(Math.floor(this.cameras.main.width / 2), Math.floor(this.cameras.main.height / 2)),
             tilesPositions: Phaser.Geom.Point[] = GameUtils.generateTilesPositions(centerPoints),
             board: Phaser.GameObjects.Container = this.boardFactory.createBoard(BoardTypes.Basic, this, tilesPositions),
             arrows: Phaser.GameObjects.Container = new ArrowsContainer(this, tilesPositions),
-            pawnsContainer: Phaser.GameObjects.Container = new PawnsContainer(this, tilesPositions, centerPoints),
+            pawnsContainer: Phaser.GameObjects.Container = new PawnsContainer(this, tilesPositions, centerPoints, gameLogic),
             uiContainer: Phaser.GameObjects.Container = new UiContainer(this, centerPoints),
-            btn: Phaser.GameObjects.Container = new PlayBtnContainer(this, centerPoints, gameLogic, emitter)
+            btn: Phaser.GameObjects.Container = new PlayBtnContainer(this, centerPoints, gameLogic)
 
         this.add.existing(board)
         this.add.existing(arrows)

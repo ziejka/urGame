@@ -4,27 +4,29 @@ import iClientGameLogic from '../../gameLogic/iClientGameLogic';
 const minSpinNumber = 2
 
 export default class PlayBtnContainer extends Phaser.GameObjects.Container {
-    private numbers: Phaser.GameObjects.Sprite[][];
-    private centerX: number;
-    private centerY: number;
-    private playBtns: Phaser.GameObjects.Sprite[];
-    private wonValue: Phaser.GameObjects.Text;
+    private numbers: Phaser.GameObjects.Sprite[][]
+    private centerX: number
+    private centerY: number
+    private playBtns: Phaser.GameObjects.Sprite[]
+    private wonValue: Phaser.GameObjects.Text
     private offset: number = 100
-    private gameLogic: iClientGameLogic;
-    private emitter: Phaser.Events.EventEmitter;
+    private gameLogic: iClientGameLogic
     private playersColors: string[] = [Colors.Blue, Colors.Red]
+    private sceneEvents: Phaser.Events.EventEmitter
+    private hitArea: Phaser.Geom.Circle;
 
-    constructor(scene: Phaser.Scene, centerPoint: Phaser.Geom.Point, gameLogic: iClientGameLogic, emitter: Phaser.Events.EventEmitter) {
+    constructor(scene: Phaser.Scene, centerPoint: Phaser.Geom.Point, gameLogic: iClientGameLogic) {
         super(scene)
         let btnMask = scene.make.image({ key: 'btnMask', add: false, x: 0, y: 0 }),
             positionX: number = centerPoint.x + 5,
-            positionY: number = centerPoint.y * 2 - btnMask.height / 2 + 3,
-            hitArea = new Phaser.Geom.Circle(positionX, positionY, 55)
+            positionY: number = centerPoint.y * 2 - btnMask.height / 2 + 3
 
+        this.hitArea = new Phaser.Geom.Circle(positionX, positionY, 55)
+        this.sceneEvents = scene.events
         this.gameLogic = gameLogic
-        this.emitter = emitter
         this.centerX = centerPoint.x
         this.centerY = positionY
+
         this.playBtns = this.createPlayBtns(scene, positionX, positionY)
         this.wonValue = this.createWonValueText(scene, positionY)
         this.numbers = this.generateNumbers(scene, centerPoint.x, positionY)
@@ -32,50 +34,28 @@ export default class PlayBtnContainer extends Phaser.GameObjects.Container {
         btnMask.setPosition(this.centerX, positionY)
         this.mask = btnMask.createBitmapMask()
 
-        this.setInteractive(hitArea, Phaser.Geom.Circle.Contains)
-        this.on('pointerup', () => {
-            this.onBtnClick()
-        })
+        this.setUpEvents()
+        this.enable()
+    }
+
+    private enable(): void {
+        this.setInteractive(this.hitArea, Phaser.Geom.Circle.Contains)
+    }
+
+    private setUpEvents(): void {
+        this.on('pointerup', this.onBtnClick)
+        this.sceneEvents.on(GameEvents.pawn.moveFinished, this.onPawnMoveEnd, this)
     }
 
     public onBtnClick(): void {
-        this.emitter.emit(GameEvents.playBtn.clicked)
+        this.disableInteractive()
+        this.sceneEvents.emit(GameEvents.playBtn.clicked)
         this.scene.add.tween({
             targets: this.playBtns[this.gameLogic.getPlayer()],
             x: this.centerX - this.offset,
             duration: 200,
             onComplete: this.runSpinNumber.bind(this, 0)
         })
-    }
-
-    private endSpinAnimation(): void {
-        this.wonValue.setText(this.gameLogic.getWonNumberText())
-        this.wonValue.setPosition(this.centerX + this.offset, this.centerY)
-        this.wonValue.setColor(this.playersColors[this.gameLogic.getPlayer()])
-        this.scene.add.tween({
-            targets: this.wonValue,
-            x: this.centerX,
-            duration: 200,
-            onComplete: this.onEndSpinAnimationComplete.bind(this)
-        })
-    }
-
-    private onEndSpinAnimationComplete(): void {
-        this.emitter.emit(GameEvents.pawn.moveFinished)
-        setTimeout(() => {
-            this.scene.add.tween({
-                targets: this.wonValue,
-                y: this.centerY + this.offset,
-                duration: 200
-            })
-
-            this.playBtns[this.gameLogic.getPlayer()].setPosition(this.centerX, this.centerY - this.offset)
-            this.scene.add.tween({
-                targets: this.playBtns[this.gameLogic.getPlayer()],
-                y: this.centerY,
-                duration: 200
-            })
-        }, 1000);
     }
 
     private runSpinNumber(num: number) {
@@ -95,6 +75,38 @@ export default class PlayBtnContainer extends Phaser.GameObjects.Container {
             x: this.centerX - this.offset,
             duration: 150,
             onComplete: callback
+        })
+    }
+
+    private endSpinAnimation(): void {
+        this.wonValue.setText(this.gameLogic.getWonNumberText())
+        this.wonValue.setPosition(this.centerX + this.offset, this.centerY)
+        this.wonValue.setColor(this.playersColors[this.gameLogic.getPlayer()])
+        this.scene.add.tween({
+            targets: this.wonValue,
+            x: this.centerX,
+            duration: 200,
+            onComplete: this.onEndSpinAnimationComplete.bind(this)
+        })
+    }
+
+    private onEndSpinAnimationComplete(): void {
+        this.sceneEvents.emit(GameEvents.playBtn.spinEnd)
+    }
+
+    private onPawnMoveEnd(): void {
+        this.scene.add.tween({
+            targets: this.wonValue,
+            y: this.centerY + this.offset,
+            duration: 200
+        })
+
+        this.playBtns[this.gameLogic.getPlayer()].setPosition(this.centerX, this.centerY - this.offset)
+        this.scene.add.tween({
+            targets: this.playBtns[this.gameLogic.getPlayer()],
+            y: this.centerY,
+            duration: 200,
+            onComplete: this.enable.bind(this)
         })
     }
 
