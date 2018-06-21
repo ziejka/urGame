@@ -8,6 +8,7 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
     private jumpAnim: string
     private sceneEvents: Phaser.Events.EventEmitter
     private id: number;
+    private enableTween: Phaser.Tweens.Tween;
 
     constructor(scene: Phaser.Scene, { positions, texture, animation }: AbstractPawnConfig, firstPosition: Phaser.Geom.Point, id: number) {
         super(scene, firstPosition.x, firstPosition.y, texture)
@@ -16,6 +17,7 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
         this.currenPosition = 0
         this.tweenMoveList = this.createMoveTweens()
         this.scene = scene
+        this.enableTween = this.createEnableTween()
         this.sceneEvents = scene.events
         this.setScale(0.8)
         this.jumpAnim = animation
@@ -26,14 +28,19 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
     }
 
     private onPawnClicked(): void {
-        this.sceneEvents.emit(GameEvents.pawn.clicked, this.id)
+        this.disable()
+        this.sceneEvents.emit(GameEvents.pawn.selected, this.id)
     }
 
     public disable(): void {
+        if (!this.enableTween.paused) {
+            this.enableTween.pause()
+        }
         this.disableInteractive()
     }
 
     public enable(): void {
+        this.enableTween.resume()
         this.setInteractive()
     }
 
@@ -82,5 +89,17 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
             tweenMoveList.push(config)
         }
         return tweenMoveList
+    }
+
+    private createEnableTween(): Phaser.Tweens.Tween {
+        return this.enableTween = this.scene.add.tween({
+            targets: this,
+            repeat: -1,
+            scaleX: this.scaleX + 0.1,
+            scaleY: this.scaleY + 0.1,
+            yoyo: true,
+            duration: 300,
+            paused: true
+        })
     }
 }

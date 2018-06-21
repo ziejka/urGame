@@ -1,7 +1,7 @@
 import { Colors, Font, GameEvents, Players } from '../../config/config';
 import iClientGameLogic from '../../gameLogic/iClientGameLogic';
 
-const minSpinNumber = 2
+const minSpinNumber = 0
 
 export default class PlayBtnContainer extends Phaser.GameObjects.Container {
     private numbers: Phaser.GameObjects.Sprite[][]

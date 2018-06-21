@@ -29,7 +29,7 @@ export const GameEvents = {
         spinEnd: Symbol()
     },
     pawn: {
-        clicked: Symbol(),
+        selected: Symbol(),
         moveFinished: Symbol()
     }
 }

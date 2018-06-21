@@ -24,18 +24,22 @@ export default class GameLogic implements iClientGameLogic {
         return this.state.getPlayer()
     }
 
+    getAvailableMoves(): number[] {
+        return this.state.getAvailableMoves()
+    }
+
     private setUpEvents() {
         this.emitter.on(GameEvents.playBtn.clicked, this.onPlayBtnClick, this)
         this.emitter.on(GameEvents.pawn.moveFinished, this.state.changePlayer, this.state)
-        this.emitter.on(GameEvents.pawn.clicked, this.onPawnSelect, this)
+        this.emitter.on(GameEvents.pawn.selected, this.onPawnSelected, this)
     }
 
-    private onPawnSelect(pawnIndex): void {
+    private onPawnSelected(pawnIndex): void {
         this.state.movePawn(pawnIndex)
     }
 
     private onPlayBtnClick(): void {
-        this.state.drawNumber()
+        this.state.drawStep()
     }
 
 }
