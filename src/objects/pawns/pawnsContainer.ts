@@ -53,8 +53,8 @@ export default class PawnsContainer extends Phaser.GameObjects.Container {
             yOffset = 35 * index
 
             this.yOffsetsList.push(yOffset)
-            const firstBluePos = new Phaser.Geom.Point(this.bluePawnsConfig.positions[0].x, this.bluePawnsConfig.positions[0].y - yOffset),
-                firstRedPos = new Phaser.Geom.Point(this.redPawnsConfig.positions[0].x, this.redPawnsConfig.positions[0].y - yOffset),
+            const firstBluePos = new Phaser.Geom.Point(this.bluePawnsConfig.positions[0].x, this.bluePawnsConfig.positions[0].y + yOffset),
+                firstRedPos = new Phaser.Geom.Point(this.redPawnsConfig.positions[0].x, this.redPawnsConfig.positions[0].y + yOffset),
                 bluePawn = new Pawn(scene, this.bluePawnsConfig, firstBluePos, index),
                 redPawn = new Pawn(scene, this.redPawnsConfig, firstRedPos, index)
 

@@ -15,7 +15,7 @@ export default class BluePawnConfig extends AbstractPawnConfig {
     }
 
     getFirstPosition(centerPoints: Phaser.Geom.Point): Phaser.Geom.Point {
-        return new Phaser.Geom.Point(50, centerPoints.y)
+        return new Phaser.Geom.Point(50, centerPoints.y - this.yOffset)
     }
 
     getLastPosition(): Phaser.Geom.Point {

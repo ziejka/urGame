@@ -5,30 +5,36 @@ export default class GameState {
     private player: number
     private score: number[][]
     private wonNumber: number
-    private enabledPawns: number[]
     private bonusField: number[] = [4, 8, 12, 16]
     private warZone: number[] = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     private availableMoves: number[];
+    private maxPosition: number = 17
+    private respin: boolean;
 
     constructor() {
         this.pawnsPos = [new Array(7).fill(0), new Array(7).fill(0)]
         this.player = 0
         this.score = new Array(2).fill(0)
         this.wonNumber = -1
-
-        window['state'] = this
+        window['s'] = this
     }
 
     drawStep(): void {
         this.drawNumber()
         this.availableMoves = this.calculateAvailableMoves()
+        this.respin = false
     }
 
     movePawn(pawnIndex: number) {
-        this.pawnsPos[this.player][pawnIndex] += this.wonNumber
+        if (this.availableMoves[pawnIndex] > 0) {
+            this.pawnsPos[this.player][pawnIndex] += this.wonNumber
+            this.respin = this.bonusField.includes(this.pawnsPos[this.player][pawnIndex])
+        }
+
     }
 
     changePlayer() {
+        if (this.respin) { return }
         this.player = this.getOponent()
     }
 
@@ -58,6 +64,12 @@ export default class GameState {
 
         activePawns.forEach(oldPos => {
             let newPos = oldPos + this.wonNumber
+
+            if (newPos > this.maxPosition) {
+                availableMoves.push(0)
+                return
+            }
+
             if (activePawns.includes(newPos)) {
                 availableMoves.push(0)
                 return
@@ -96,6 +108,6 @@ export default class GameState {
             return newPos
         }
 
-        return this.adjustPosAgainstOponent(newPos++)
+        return this.adjustPosAgainstOponent(++newPos)
     }
 }

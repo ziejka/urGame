@@ -11,7 +11,7 @@ module.exports = {
     devServer: {
         contentBase: path.resolve(__dirname, './'),
         publicPath: '/build/',
-        host: '0.0.0.0',
+        host: process.env.IP || 'localhost',
         port: 8080,
         open: true,
     },

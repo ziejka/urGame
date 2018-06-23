@@ -4,6 +4,7 @@ export default abstract class AbstractPawnConfig {
     public positions: Phaser.Geom.Point[];
     public texture: string
     public animation: string;
+    public yOffset:number = 245
 
     constructor(tilesPoistion: Phaser.Geom.Point[], centerPoints: Phaser.Geom.Point) {
         this.positions = GameUtils.generatePlayerPosition(tilesPoistion, this.getPlayersPawnIndexes())
