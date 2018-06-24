@@ -68,6 +68,9 @@ export default class GameState {
         yield 0
         yield 4
         yield 4
+        while (true) {
+            yield 2
+        }
     }
 
     private calculateAvailableMoves() {

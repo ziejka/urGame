@@ -30,7 +30,7 @@ export default class PawnsContainer extends Phaser.GameObjects.Container {
     }
 
     private onPawnClicked(pawnIndex: number): void {
-        this.playesrPawns[this.gameLogic.getPlayer()].forEach(p => p.disable())
+        this.playesrPawns.forEach(panws => panws.forEach(p => p.disable()))
         this.playesrPawns[this.gameLogic.getPlayer()][pawnIndex].moveToPosition(this.gameLogic.getAvailableMoves()[pawnIndex])
     }
 

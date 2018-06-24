@@ -36,7 +36,7 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
         if (!this.enableTween.paused) {
             this.enableTween.pause()
         }
-        this.disableInteractive()
+        this.removeInteractive()
     }
 
     public enable(): void {
