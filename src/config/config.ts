@@ -30,7 +30,8 @@ export const GameEvents = {
     },
     pawn: {
         selected: Symbol(),
-        moveFinished: Symbol()
+        moveFinished: Symbol(),
+        enabled: Symbol()
     }
 }
 

@@ -44,9 +44,10 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
         this.setInteractive()
     }
 
-    public movePawnBy(n: number): void {
+    public moveToPosition(newPos: number): void {
         const tweenTimeline = this.scene.tweens.timeline({})
-        let nextPos = this.currenPosition + n
+        let steps = newPos - this.currenPosition,
+            nextPos = this.currenPosition + steps
         this.setScale(1)
         for (let i = this.currenPosition + 1; i < nextPos + 1; i++) {
             if (i > 17) {
@@ -95,8 +96,8 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
         return this.enableTween = this.scene.add.tween({
             targets: this,
             repeat: -1,
-            scaleX: this.scaleX + 0.1,
-            scaleY: this.scaleY + 0.1,
+            scaleX: 0.9,
+            scaleY: 0.9,
             yoyo: true,
             duration: 300,
             paused: true

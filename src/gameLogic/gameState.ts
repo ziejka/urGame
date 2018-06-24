@@ -10,6 +10,7 @@ export default class GameState {
     private availableMoves: number[];
     private maxPosition: number = 17
     private respin: boolean;
+    cheatIterator: IterableIterator<number>;
 
     constructor() {
         this.pawnsPos = [new Array(7).fill(0), new Array(7).fill(0)]
@@ -17,6 +18,8 @@ export default class GameState {
         this.score = new Array(2).fill(0)
         this.wonNumber = -1
         window['s'] = this
+
+        this.cheatIterator = this.getCheatNumber()
     }
 
     drawStep(): void {
@@ -27,7 +30,7 @@ export default class GameState {
 
     movePawn(pawnIndex: number) {
         if (this.availableMoves[pawnIndex] > 0) {
-            this.pawnsPos[this.player][pawnIndex] += this.wonNumber
+            this.pawnsPos[this.player][pawnIndex] = this.availableMoves[pawnIndex]
             this.respin = this.bonusField.includes(this.pawnsPos[this.player][pawnIndex])
         }
 
@@ -55,7 +58,16 @@ export default class GameState {
     }
 
     private drawNumber() {
-        this.wonNumber = Math.floor(Math.random() * maxNumber)
+        // this.wonNumber = Math.floor(Math.random() * maxNumber)
+        this.wonNumber = this.cheatIterator.next().value
+    }
+
+    private *getCheatNumber(): IterableIterator<number> {
+        yield 4
+        yield 4
+        yield 0
+        yield 4
+        yield 4
     }
 
     private calculateAvailableMoves() {

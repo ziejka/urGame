@@ -17,11 +17,15 @@ export default class Arrows {
     }
 
     playAnimation() {
-        this.tweens.forEach(tween => tween.resume())
+        this.tweens.forEach(tween => {
+            if (tween.isPaused) tween.resume()
+        })
     }
 
     pauseAnimation() {
-        this.tweens.forEach(tween => tween.pause())
+        this.tweens.forEach(tween => {
+            if (tween.isPlaying) tween.pause()
+        })
         this.setAlpha(0.5)
     }
 
@@ -35,11 +39,11 @@ export default class Arrows {
             scene.add.tween({
                 targets: arrow,
                 alpha: 1,
-                duration: speed * 1.5,
+                duration: speed * 1.2,
                 yoyo: true,
                 repeat: -1,
                 delay: index * speed,
-                repeatDelay: speed * 4,
+                repeatDelay: speed * 1.5,
                 paused: true
             })
         )

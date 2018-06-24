@@ -21,6 +21,7 @@ export default class PawnsContainer extends Phaser.GameObjects.Container {
         this.gameLogic = gameLogic
         this.sceneEvents = scene.events
         this.setUpEvents()
+        window['p'] = this
     }
 
     private setUpEvents(): void {
@@ -30,7 +31,7 @@ export default class PawnsContainer extends Phaser.GameObjects.Container {
 
     private onPawnClicked(pawnIndex: number): void {
         this.playesrPawns[this.gameLogic.getPlayer()].forEach(p => p.disable())
-        this.playesrPawns[this.gameLogic.getPlayer()][pawnIndex].movePawnBy(this.gameLogic.getWonNumber())
+        this.playesrPawns[this.gameLogic.getPlayer()][pawnIndex].moveToPosition(this.gameLogic.getAvailableMoves()[pawnIndex])
     }
 
     private onSpinEnd(): void {
@@ -78,5 +79,6 @@ export default class PawnsContainer extends Phaser.GameObjects.Container {
                 activePlayerPawns[index].enable()
             }
         })
+        this.sceneEvents.emit(GameEvents.pawn.enabled, this.gameLogic.getPlayer())
     }
 }

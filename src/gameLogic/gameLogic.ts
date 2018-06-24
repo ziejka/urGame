@@ -10,6 +10,7 @@ export default class GameLogic implements iClientGameLogic {
         this.emitter = emitter
         this.state = new GameState()
         this.setUpEvents()
+        window['l'] = this
     }
 
     getWonNumber(): number {

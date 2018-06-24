@@ -10,6 +10,7 @@ export class BootScene extends Phaser.Scene {
     preload(): void {
         this.add.text(0, 0, "", { font: `1px ${Font.fontFamily}` })
         this.load.image("tile", "./assets/images/tile.png");
+        this.load.image("bonusTile", "./assets/images/bonusTile.png");
         this.load.image("btnBg", "./assets/images/btnBg.png");
         this.load.image("uiBg", "./assets/images/uiBg.png");
         this.load.image("btnMask", "./assets/images/btnMask.png");
