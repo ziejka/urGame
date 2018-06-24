@@ -3,4 +3,5 @@ export default interface iClientGameLogic {
     getPlayer(): number
     getWonNumber(): number
     getAvailableMoves(): number[]
+    getPawnToKill(): number[]
 }

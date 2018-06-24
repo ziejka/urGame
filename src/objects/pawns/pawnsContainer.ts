@@ -30,8 +30,16 @@ export default class PawnsContainer extends Phaser.GameObjects.Container {
     }
 
     private onPawnClicked(pawnIndex: number): void {
+        const me = this,
+            steps = this.playesrPawns[this.gameLogic.getPlayer()][pawnIndex].moveToPosition(this.gameLogic.getAvailableMoves()[pawnIndex]),
+            pawnToKill = this.gameLogic.getPawnToKill()
+
         this.playesrPawns.forEach(panws => panws.forEach(p => p.disable()))
-        this.playesrPawns[this.gameLogic.getPlayer()][pawnIndex].moveToPosition(this.gameLogic.getAvailableMoves()[pawnIndex])
+
+        if (pawnToKill[1] < 0) { return }
+        setTimeout(() => {
+            me.playesrPawns[pawnToKill[0]][pawnToKill[1]].kill()
+        }, 200 + (steps - 1) * 700);
     }
 
     private onSpinEnd(): void {
@@ -51,7 +59,7 @@ export default class PawnsContainer extends Phaser.GameObjects.Container {
             yOffset: number;
 
         for (let index = 0; index < 8; index++) {
-            yOffset = 35 * index
+            yOffset = 50 * index
 
             this.yOffsetsList.push(yOffset)
             const firstBluePos = new Phaser.Geom.Point(this.bluePawnsConfig.positions[0].x, this.bluePawnsConfig.positions[0].y + yOffset),

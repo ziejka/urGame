@@ -11,6 +11,7 @@ export default class GameState {
     private maxPosition: number = 17
     private respin: boolean;
     cheatIterator: IterableIterator<number>;
+    private pawnToKill: number;
 
     constructor() {
         this.pawnsPos = [new Array(7).fill(0), new Array(7).fill(0)]
@@ -32,8 +33,15 @@ export default class GameState {
         if (this.availableMoves[pawnIndex] > 0) {
             this.pawnsPos[this.player][pawnIndex] = this.availableMoves[pawnIndex]
             this.respin = this.bonusField.includes(this.pawnsPos[this.player][pawnIndex])
-        }
+            this.pawnToKill = this.calculateOponentToKill(this.pawnsPos[this.player][pawnIndex])
 
+            if (this.pawnToKill < 0) { return }
+            this.pawnsPos[this.getOponent()][this.pawnToKill] = 0
+        }
+    }
+
+    getPawnToKill(): number[] {
+        return [this.getOponent(), this.pawnToKill]
     }
 
     changePlayer() {
@@ -53,6 +61,10 @@ export default class GameState {
         return this.availableMoves
     }
 
+    private calculateOponentToKill(posIndex: number): number {
+        return !this.warZone.includes(posIndex) ? -1 : this.pawnsPos[this.getOponent()].indexOf(posIndex)
+    }
+
     private getOponent() {
         return this.player > 0 ? 0 : 1
     }
@@ -63,11 +75,9 @@ export default class GameState {
     }
 
     private *getCheatNumber(): IterableIterator<number> {
-        yield 4
-        yield 4
-        yield 0
-        yield 4
-        yield 4
+        yield 3
+        yield 6
+        yield 3
         while (true) {
             yield 2
         }

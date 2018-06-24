@@ -29,6 +29,10 @@ export default class GameLogic implements iClientGameLogic {
         return this.state.getAvailableMoves()
     }
 
+    getPawnToKill(): number[] {
+        return this.state.getPawnToKill()
+    }
+
     private setUpEvents() {
         this.emitter.on(GameEvents.playBtn.clicked, this.onPlayBtnClick, this)
         this.emitter.on(GameEvents.pawn.moveFinished, this.state.changePlayer, this.state)

@@ -27,24 +27,30 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
         this.on('pointerup', this.onPawnClicked, this)
     }
 
-    private onPawnClicked(): void {
-        this.disable()
-        this.sceneEvents.emit(GameEvents.pawn.selected, this.id)
-    }
-
-    public disable(): void {
+    disable(): void {
         if (!this.enableTween.paused) {
             this.enableTween.pause()
         }
         this.removeInteractive()
     }
 
-    public enable(): void {
+    enable(): void {
         this.enableTween.resume()
         this.setInteractive()
     }
 
-    public moveToPosition(newPos: number): void {
+    kill(): void {
+        this.scene.add.tween({
+            targets: this,
+            x: this.positions[0].x,
+            y: this.positions[0].y,
+            duration: 200,
+            ease: 'inOut'
+        })
+        this.currenPosition = 0
+    }
+
+    moveToPosition(newPos: number): number {
         const tweenTimeline = this.scene.tweens.timeline({})
         let steps = newPos - this.currenPosition,
             nextPos = this.currenPosition + steps
@@ -61,6 +67,13 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
         tweenTimeline.setCallback('onComplete', this.stopJump, null, this)
         tweenTimeline.play()
         this.currenPosition = nextPos
+
+        return steps
+    }
+
+    private onPawnClicked(): void {
+        this.disable()
+        this.sceneEvents.emit(GameEvents.pawn.selected, this.id)
     }
 
     private playJump(): void {
