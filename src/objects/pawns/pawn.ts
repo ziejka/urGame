@@ -55,6 +55,7 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
         let steps = newPos - this.currenPosition,
             nextPos = this.currenPosition + steps
         this.setScale(1)
+
         for (let i = this.currenPosition + 1; i < nextPos + 1; i++) {
             if (i > 17) {
                 nextPos = 17
@@ -100,6 +101,10 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
                 paused: true,
                 ease: 'inOut'
             }
+            if (i === this.positions.length - 1) {
+                config.hold = 0
+                config['onComplete'] = this.onLastJump.bind(this)
+            }
             tweenMoveList.push(config)
         }
         return tweenMoveList
@@ -115,5 +120,19 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
             duration: 300,
             paused: true
         })
+    }
+
+    private onLastJump(): void {
+        this.scene.add.tween({
+            targets: this,
+            scaleX: 0.2,
+            alpha: 0,
+            duration: 300,
+            onComplete: this.onPointWon.bind(this)
+        })
+    }
+
+    private onPointWon(): void {
+        this.sceneEvents.emit(GameEvents.pawn.lastJumpEnd)
     }
 }

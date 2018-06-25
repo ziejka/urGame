@@ -14,10 +14,10 @@ export default class GameUtils {
             yNext = yStart + yOffset * i
 
             if (i > 3 && i < 6) {
-                boardPositions.push(new Phaser.Geom.Point(centerPoints.x + x[1], centerPoints.y + yNext))
+                boardPositions.push(new Phaser.Geom.Point(centerPoints.x + 5 + x[1], centerPoints.y + yNext))
             } else {
                 for (j = 0; j < 3; j++) {
-                    boardPositions.push(new Phaser.Geom.Point(centerPoints.x + x[j], centerPoints.y + yNext + yAdditionalOffset[j]))
+                    boardPositions.push(new Phaser.Geom.Point(centerPoints.x + 5 + x[j], centerPoints.y + yNext + yAdditionalOffset[j]))
                 }
             }
         }

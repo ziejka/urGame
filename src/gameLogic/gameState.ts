@@ -1,9 +1,15 @@
-const maxNumber = 5
+const maxNumber = 5,
+    invertedPositions = {
+        12: 16,
+        13: 15,
+        15: 13,
+        16: 12
+    }
 
 export default class GameState {
     private pawnsPos: number[][]
     private player: number
-    private score: number[][]
+    private score: number[] = [0, 0]
     private wonNumber: number
     private bonusField: number[] = [4, 8, 12, 16]
     private warZone: number[] = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
@@ -35,6 +41,10 @@ export default class GameState {
             this.respin = this.bonusField.includes(this.pawnsPos[this.player][pawnIndex])
             this.pawnToKill = this.calculateOponentToKill(this.pawnsPos[this.player][pawnIndex])
 
+            if (this.availableMoves[pawnIndex] === 17) {
+                this.score[this.player] += 1
+            }
+
             if (this.pawnToKill < 0) { return }
             this.pawnsPos[this.getOponent()][this.pawnToKill] = 0
         }
@@ -57,8 +67,12 @@ export default class GameState {
         return this.player
     }
 
-    getAvailableMoves() {
+    getAvailableMoves(): number[] {
         return this.availableMoves
+    }
+
+    getScore(): number[] {
+        return this.score
     }
 
     private calculateOponentToKill(posIndex: number): number {
@@ -75,9 +89,9 @@ export default class GameState {
     }
 
     private *getCheatNumber(): IterableIterator<number> {
-        yield 3
-        yield 6
-        yield 3
+        yield 9
+        yield 0
+        yield 9
         while (true) {
             yield 2
         }
@@ -100,14 +114,14 @@ export default class GameState {
                 return
             }
 
-            if (oldPos === 0 && availableMoves.includes(newPos)) {
+            newPos = this.adjustPosAgainstOponent(newPos)
+
+            if (activePawns.includes(newPos)) {
                 availableMoves.push(0)
                 return
             }
 
-            newPos = this.adjustPosAgainstOponent(newPos)
-
-            if (activePawns.includes(newPos)) {
+            if (oldPos === 0 && availableMoves.includes(newPos)) {
                 availableMoves.push(0)
                 return
             }
@@ -121,11 +135,11 @@ export default class GameState {
     private adjustPosAgainstOponent(newPos: number) {
         let oponentPawns: number[] = this.pawnsPos[this.getOponent()]
 
-        if (!oponentPawns.includes(newPos)) {
+        if (!this.warZone.includes(newPos)) {
             return newPos
         }
 
-        if (!this.warZone.includes(newPos)) {
+        if (!oponentPawns.includes(newPos) && !oponentPawns.includes(invertedPositions[newPos])) {
             return newPos
         }
 

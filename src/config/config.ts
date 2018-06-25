@@ -15,6 +15,7 @@ export enum PlayersImages {
 export enum Colors {
     Blue = "#a8dadc",
     Red = "#e63946",
+    White = '#f1faee',
     Shadow = 'rgba(0, 0, 0, 0.5)'
 }
 
@@ -31,7 +32,8 @@ export const GameEvents = {
     pawn: {
         selected: Symbol(),
         moveFinished: Symbol(),
-        enabled: Symbol()
+        enabled: Symbol(),
+        lastJumpEnd: Symbol()
     }
 }
 

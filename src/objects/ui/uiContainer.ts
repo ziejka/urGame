@@ -7,6 +7,5 @@ export default class UiContainer extends Phaser.GameObjects.Container {
 
         this.add(new UiBg(scene, centerPoints))
         this.add(new PlayBtnBg(scene, centerPoints))
-        let t = scene.add.text(100, 500, '2', { font: "40px CustomFont", color: '#f1faee' })
     }
 }
