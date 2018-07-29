@@ -2,8 +2,11 @@ import AbstractPawnConfig from './abstractPawnConfig';
 import { PlayersImages, PlayersPawnIndexes, Players } from '../../config/config';
 
 export default class RedPawnConfig extends AbstractPawnConfig {
-    getAnimations(): string {
-        return "redPawnJump"
+    getAnimations(): object {
+        return {
+            jump: "redPawnJump",
+            enabled: "redPawnEnabled"
+        }
     }
 
     getTexture(): string {
@@ -15,7 +18,7 @@ export default class RedPawnConfig extends AbstractPawnConfig {
     }
 
     getFirstPosition(centerPoints: Phaser.Geom.Point): Phaser.Geom.Point {
-        return new Phaser.Geom.Point(centerPoints.x * 2 - 30, centerPoints.y- this.yOffset)
+        return new Phaser.Geom.Point(centerPoints.x * 2 - 30, centerPoints.y - this.yOffset)
     }
 
     getLastPosition(): Phaser.Geom.Point {

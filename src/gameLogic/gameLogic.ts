@@ -40,7 +40,7 @@ export default class GameLogic implements iClientGameLogic {
     private setUpEvents() {
         this.emitter.on(GameEvents.playBtn.clicked, this.onPlayBtnClick, this)
         this.emitter.on(GameEvents.pawn.moveFinished, this.state.changePlayer, this.state)
-        this.emitter.on(GameEvents.pawn.selected, this.onPawnSelected, this)
+        this.emitter.on(GameEvents.pawn.movePawn, this.onPawnSelected, this)
     }
 
     private onPawnSelected(pawnIndex): void {

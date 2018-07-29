@@ -5,22 +5,22 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
     private positions: Phaser.Geom.Point[]
     private currenPosition: number
     private tweenMoveList: Phaser.Tweens.TweenConfigDefaults[]
-    private jumpAnim: string
+    private animations: any
     private sceneEvents: Phaser.Events.EventEmitter
-    private id: number;
-    private enableTween: Phaser.Tweens.Tween;
+    private id: number
+    private isSelected: boolean = false;
 
-    constructor(scene: Phaser.Scene, { positions, texture, animation }: AbstractPawnConfig, firstPosition: Phaser.Geom.Point, id: number) {
+    constructor(scene: Phaser.Scene, { positions, texture, animations }: AbstractPawnConfig, firstPosition: Phaser.Geom.Point, id: number) {
         super(scene, firstPosition.x, firstPosition.y, texture)
         this.id = id
         this.positions = positions
         this.currenPosition = 0
         this.tweenMoveList = this.createMoveTweens()
         this.scene = scene
-        this.enableTween = this.createEnableTween()
         this.sceneEvents = scene.events
         this.setScale(0.8)
-        this.jumpAnim = animation
+        this.animations = animations
+        // this.anims.play(this.animations.enabled)
 
         scene.add.existing(this)
 
@@ -28,14 +28,15 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
     }
 
     disable(): void {
-        if (!this.enableTween.paused) {
-            this.enableTween.pause()
+        if (this.anims.isPlaying) {
+            this.pauseAnimation()
         }
         this.removeInteractive()
     }
 
     enable(): void {
-        this.enableTween.resume()
+        this.anims.play(this.animations.enabled)
+        // this.enableTween.resume()
         this.setInteractive()
     }
 
@@ -73,17 +74,34 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
     }
 
     private onPawnClicked(): void {
+        if (!this.isSelected) {
+            this.select()
+            this.sceneEvents.emit(GameEvents.pawn.selected, this.id)
+            return
+        }
         this.disable()
-        this.sceneEvents.emit(GameEvents.pawn.selected, this.id)
+        this.sceneEvents.emit(GameEvents.pawn.movePawn, this.id)
+    }
+
+    private select(): void {
+        this.isSelected = true
+    }
+
+    public deselect(): void {
+        this.isSelected = false
     }
 
     private playJump(): void {
         this.disableInteractive()
-        this.anims.play(this.jumpAnim)
+        this.anims.play(this.animations.jump)
     }
 
     private stopJump(): void {
         this.sceneEvents.emit(GameEvents.pawn.moveFinished)
+        this.pauseAnimation()
+    }
+
+    pauseAnimation(): void {
         this.anims.restart()
         this.anims.stop()
     }
@@ -108,18 +126,6 @@ export default class Pawn extends Phaser.GameObjects.Sprite {
             tweenMoveList.push(config)
         }
         return tweenMoveList
-    }
-
-    private createEnableTween(): Phaser.Tweens.Tween {
-        return this.enableTween = this.scene.add.tween({
-            targets: this,
-            repeat: -1,
-            scaleX: 0.9,
-            scaleY: 0.9,
-            yoyo: true,
-            duration: 300,
-            paused: true
-        })
     }
 
     private onLastJump(): void {

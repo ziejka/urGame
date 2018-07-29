@@ -30,10 +30,11 @@ export const GameEvents = {
         spinEnd: Symbol()
     },
     pawn: {
-        selected: Symbol(),
+        movePawn: Symbol(),
         moveFinished: Symbol(),
         enabled: Symbol(),
-        lastJumpEnd: Symbol()
+        lastJumpEnd: Symbol(),
+        selected: Symbol()
     }
 }
 

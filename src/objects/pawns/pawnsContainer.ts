@@ -3,6 +3,7 @@ import BluePawnConfig from './bluePawnConfig';
 import RedPawnConfig from './redPawnConfig';
 import { GameEvents, Players } from '../../config/config';
 import iClientGameLogic from '../../gameLogic/iClientGameLogic';
+import PawnsMarkers from './pawnMarker';
 
 export default class PawnsContainer extends Phaser.GameObjects.Container {
     private playesrPawns: Pawn[][];
@@ -12,6 +13,7 @@ export default class PawnsContainer extends Phaser.GameObjects.Container {
     private redPawnsConfig: RedPawnConfig;
     private yOffsetsList: number[] = []
     private pawnsOnStartPos: number[][] = [[], []]
+    private pawnsMarkers: PawnsMarkers;
 
     constructor(scene: Phaser.Scene, tilesPositions: Phaser.Geom.Point[], centerPoints: Phaser.Geom.Point, gameLogic: iClientGameLogic) {
         super(scene)
@@ -20,13 +22,21 @@ export default class PawnsContainer extends Phaser.GameObjects.Container {
         this.playesrPawns = this.createPlayersPawns(scene)
         this.gameLogic = gameLogic
         this.sceneEvents = scene.events
+        this.pawnsMarkers = new PawnsMarkers(scene)
+        this.add(this.pawnsMarkers)
         this.setUpEvents()
         window['p'] = this
     }
 
     private setUpEvents(): void {
         this.sceneEvents.on(GameEvents.playBtn.spinEnd, this.onSpinEnd, this)
-        this.sceneEvents.on(GameEvents.pawn.selected, this.onPawnClicked, this)
+        this.sceneEvents.on(GameEvents.pawn.movePawn, this.onPawnClicked, this)
+        this.sceneEvents.on(GameEvents.pawn.selected, this.onPawnselected, this)
+    }
+
+    private onPawnselected(pawnIndex: number): void {
+        const newPos = this.gameLogic.getAvailableMoves()[pawnIndex];
+
     }
 
     private onPawnClicked(pawnIndex: number): void {

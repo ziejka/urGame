@@ -84,22 +84,27 @@ export default class GameState {
     }
 
     private drawNumber() {
-        // this.wonNumber = Math.floor(Math.random() * maxNumber)
-        this.wonNumber = this.cheatIterator.next().value
+        this.wonNumber = Math.floor(Math.random() * maxNumber)
+        // this.wonNumber = this.cheatIterator.next().value
     }
 
     private *getCheatNumber(): IterableIterator<number> {
-        yield 9
+        yield 17
         yield 0
-        yield 9
+        yield 0
+        yield 3
         while (true) {
-            yield 2
+            yield 0
         }
     }
 
     private calculateAvailableMoves() {
         let activePawns: number[] = this.pawnsPos[this.player],
             availableMoves: number[] = []
+
+        if (this.wonNumber < 1) {
+            return new Array(7).fill(0)
+        }
 
         activePawns.forEach(oldPos => {
             let newPos = oldPos + this.wonNumber
@@ -109,14 +114,14 @@ export default class GameState {
                 return
             }
 
-            if (activePawns.includes(newPos)) {
+            if (newPos !== this.maxPosition && activePawns.includes(newPos)) {
                 availableMoves.push(0)
                 return
             }
 
             newPos = this.adjustPosAgainstOponent(newPos)
 
-            if (activePawns.includes(newPos)) {
+            if (newPos !== this.maxPosition && activePawns.includes(newPos)) {
                 availableMoves.push(0)
                 return
             }

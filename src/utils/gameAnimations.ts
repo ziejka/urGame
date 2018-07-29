@@ -13,6 +13,18 @@ export default class GameAnimations {
             frames: scene.anims.generateFrameNumbers('redPawn', { start: 0, end: 20 }),
             frameRate: 30,
             repeat: -1
+        },
+        {
+            key: 'bluePawnEnabled',
+            frames: scene.anims.generateFrameNumbers('bluePawnEnabled', { start: 0, end: 16 }),
+            frameRate: 30,
+            repeat: -1
+        },
+        {
+            key: 'redPawnEnabled',
+            frames: scene.anims.generateFrameNumbers('redPawnEnabled', { start: 0, end: 16 }),
+            frameRate: 30,
+            repeat: -1
         }]
 
         configs.forEach(conf => scene.anims.create(conf))
